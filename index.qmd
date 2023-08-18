@@ -1,5 +1,6 @@
 ---
-title: "Bradley's Deep Learning Blog"
+title: "Deep Learning Blog"
+description: "Where I explore the world of deep learning and AI technologies."
 listing:
   contents: posts
   sort: "date desc"
