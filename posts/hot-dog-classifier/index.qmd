@@ -401,10 +401,10 @@ However, it is important to consider that there are still some edge cases in whi
   ![Sub sandwich](sub_results.png)
 </p>
 
-To improve this model, we should try including more images of "subs" in the `not-hot-dog` subdirectory!
+To improve this model, we should thus try including more images of "subs" in the `not-hot-dog` subdirectory.
 
 ## **Acknowledgments**
-I would like to thank the teams at DeepLearning.AI and fast.ai, from both of whom I have been able to learn about deep learning in the last few months.
+I would like to thank the teams at DeepLearning.AI and fast.ai, from both of which I have been able to learn a lot about deep learning in the preceding months.
 
 ## **Disclaimer**
-Some readers may wonder if a certain male appendage is able to fool this classifier. I leave any such curiosities to the explorations of the reader...
+Some readers may wonder if a certain male appendage is able to fool this classifier. I leave all such curiosities to the explorations of the reader...
