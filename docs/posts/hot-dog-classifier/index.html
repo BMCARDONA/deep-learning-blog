@@ -9,7 +9,7 @@
 <meta name="author" content="Bradley Cardona">
 <meta name="dcterms.date" content="2023-08-17">
 
-<title>Deep Learning Blog - Creating a Hot Dog / Not Hot Dog Classifer Using Fast.Ai</title>
+<title>Deep Learning Blog - Creating a Hot Dog Binary Classifer Using Fast.AI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Creating a Hot Dog / Not Hot Dog Classifer Using Fast.Ai</h1>
+      <h1 class="title">Creating a Hot Dog Binary Classifer Using Fast.AI</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">code</div>
                 <div class="quarto-category">project</div>
@@ -176,19 +176,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Having recently completed DeepLearning.AI’s wonderful <a href="https://www.deeplearning.ai/courses/deep-learning-specialization/">Deep Learning Specialization</a>, I thought I would start the <a href="https://course.fast.ai/">Practical Deep Learning for Coders</a> course by fast.ai. I recently completed the third lesson of Part I, and decided that I wanted to make a binary classifier to test whether an image belongs to the “hot dog” or “not hot dog” class, as seen on that famous Silicon Valley <a href="https://www.youtube.com/watch?v=ACmydtFDTGs&amp;ab_channel=HBO">episode</a>.</p>
-<p>To create this project, I used the fast.ai library, <a href="https://www.gradio.app/">Gradio</a>, <a href="https://huggingface.co/spaces">HuggingFace Spaces</a>, <a href="https://www.kaggle.com/datasets/dansbecker/hot-dog-not-hot-dog">this</a> Kaggle dataset, and Google Colab. This article will discuss the notebook that I used to train my model, in addition to the steps I took to deploy it. Feel free to check out my deployed project <a href="https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier">here</a>. :)</p>
-<p>To begin the notebook, I imported any necessary dependencies.</p>
+<p>Having recently completed DeepLearning.AI’s wonderful <a href="https://www.deeplearning.ai/courses/deep-learning-specialization/">Deep Learning Specialization</a>, and having recently started fast.ai’s <a href="https://course.fast.ai/">Practical Deep Learning for Coders</a>, I thought I would try to implement a binary classifier to test whether an image of a food item belongs to the “hot dog” or “not hot dog” class, as seen on that Silicon Valley <a href="https://www.youtube.com/watch?v=ACmydtFDTGs&amp;ab_channel=HBO">episode</a>.</p>
+<p>To create this project, I used the fast.ai library, <a href="https://www.gradio.app/">Gradio</a>, <a href="https://huggingface.co/spaces">HuggingFace Spaces</a>, <a href="https://www.kaggle.com/datasets/dansbecker/hot-dog-not-hot-dog">this</a> Kaggle dataset, and Google Colab. In this article, we will discuss the notebook I used to train my model, in addition to the steps I took to deploy it. Feel free to check out the deployed project <a href="https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier">here</a>. :)</p>
+<section id="training" class="level2">
+<h2 class="anchored" data-anchor-id="training"><strong>Training</strong></h2>
+<p>To begin, we will import any necessary dependencies.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Since I was using Google Colab to execute my notebook cells, next I needed to mount my Google Drive to the Colab notebook’s file system. (This allows one to access and manipulate files stored in one’s Google Drive directly from within one’s Colab notebook.)</p>
+<p>Since we are using Google Colab to execute my notebook cells, we to mount my Google Drive to the Colab notebook’s file system. (This mounting allows one to access and manipulate files stored in one’s Google Drive directly from within one’s Colab notebook.)</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mount Google Drive</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>I then specified the path to my <code>dataset</code> directory, which itself contained two additional subdirectories: <code>hot-dog</code> and <code>not-hot-dog</code>. The former contained photos of hot dogs, the latter photos of “not hot dogs.”</p>
+<p>Having mounted my drive, let’s now specify the path to my <code>dataset</code> directory, which itself contains two additional subdirectories: <code>hot-dog</code> and <code>not-hot-dog</code>. The former contains photos of hot dogs, the latter photos of “not hot dogs.”</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/fast_ai_experiments/3_neural_net_foundations/hot_dog_not_hotdog/dataset/'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Every image in the <code>hot-dog</code> and <code>not-hot-dog</code> subdirectories had a naming format of “number.jpg” (e.g., “1231.jpg”). For the sake of using a better naming format, therefore, I decided to use the format of “hot-dog_index” (e.g., “hot-dog_12.jpg”) for the images of the <code>hot-dog</code> subdirectory, and “not-hot-dog_index” (e.g., “not-hot-dog_12.jpg”) for the images of the <code>not-hot-dog</code> subdirectory.</p>
+<p>Every image in the <code>hot-dog</code> and <code>not-hot-dog</code> subdirectories has a pre-existing naming format of “number.jpg” (e.g., “1231.jpg”). For the sake of using a better naming format, let’s use the format of “hot-dog_index” (e.g., “hot-dog_12.jpg”) for each image in the <code>hot-dog</code> subdirectory, and “not-hot-dog_index” (e.g., “not-hot-dog_12.jpg”) for each image in the <code>not-hot-dog</code> subdirectory.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of subdirectories</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>subdirectories <span class="op">=</span> [<span class="st">'hot-dog'</span>, <span class="st">'not-hot-dog'</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -204,8 +206,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> filename.endswith(<span class="st">".jpg"</span>):</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            new_filename <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>subdir<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.jpg"</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            os.rename(os.path.join(subdir_path, filename), os.path.join(subdir_path, new_filename))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Next, I used the ImageDataLoaders.from_name_func() method. This is a fast.ai method for creating “data loaders” for image classification tasks; it takes various arguments, and defines how the data should be loaded and prepared.</p>
-<p>Using this method, we will define our training/validation split as 80% for training and 20% for validation; we will label each image in the <code>hot-dog</code> subdirectory as “hot-dog” and each image in the <code>not-hot-dog</code> one as “not-hot-dog”; and we will re-size each image to be 224 x 224 in pixel size.</p>
+<p>Next, we will use the ImageDataLoaders.from_name_func() method. This is a fast.ai method used for creating “data loaders” for image classification tasks; it takes various arguments, which define how the data should be loaded and prepared.</p>
+<p>Using this method, we will define the training/validation split as 80% for training and 20% for validation; we will label each image in the <code>hot-dog</code> subdirectory as “hot-dog” and each image in the <code>not-hot-dog</code> one as “not-hot-dog”; and we will re-size each image to be 224 x 224 in pixel size.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating ImageDataLoaders</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> ImageDataLoaders.from_name_func(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    path,</span>
@@ -215,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    label_func<span class="op">=</span>RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^([^/]+)_\d+'</span>),</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Let’s now see a batch of 20 labeled images:</p>
+<p>Let’s now take a look at a batch containing 20 labeled images:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -223,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption class="figure-caption">png</figcaption>
 </figure>
 </div>
-<p>Nice! Let’s now harness the capabilities of the fast.ai library to use transfer learning. We will create a learner object for image classification using the ResNet-34 architecture; train the model on our training set for 3 epochs; and then evaluate the model’s performance on the validation set using the “error rate” metric.</p>
+<p>Nice, it seems that each photo is labeled appropriately! Let’s now use the fast.ai library to harness the capabilities of transfer learning. We will create a learner object for image classification using the ResNet-34 architecture, train the model on our training set for 3 epochs, and then evaluate the model’s performance on our validation set using the “error rate” metric.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet34, metrics<span class="op">=</span>error_rate)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -346,7 +348,7 @@ time
 </tbody>
 
 </table>
-<p>Based on <a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">Jeremy Howard’s</a> analysis, it might make sense for us to try a different model to improve our error rate. Let’s try the convnext models.</p>
+<p>Based on <a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">this analysis</a> by Jeremy Howard, it might make sense for us to try a different model to improve our error rate. Let’s try the convnext models.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>timm.list_models(<span class="st">'convnext*'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>['convnext_atto',
  'convnext_atto_ols',
@@ -496,10 +498,74 @@ time
 
 </table>
 <p>Indeed, using the convnext models, our error rate has dropped from 0.105528 to 0.045226! Hot dog!</p>
+<p>Let’s export the trained model so that it can be saved and later loaded for further training without needing to retrain the model from scratch.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="deployment" class="level2">
+<h2 class="anchored" data-anchor-id="deployment"><strong>Deployment</strong></h2>
+<p>Having created our model, we now need to showcase our project to the world at large! Hugging Face Spaces (HFS) is a platform on which we can do so. We will make use of HFS, in addition to Gradio, an open-source library that enables one to create a simple interface for a machine learning model. To see how to pair HFS with Gradio, I encourage you to check out <a href="https://www.tanishq.ai/blog/gradio_hf_spaces_tutorial">this concise blog post</a> by Tanishq Abraham.</p>
+<p>Before deploying out project, we will need to make an <code>app.py</code> file. This file will make use of Gradio to create an interface to classify images using our pre-trained machine learning model (in this case, our <code>model.pkl</code> file).</p>
+<p>Here’s my code for the <code>app.py</code> file:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AUTOGENERATED! DO NOT EDIT! File to edit: . (unless otherwise specified).</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>__all__ <span class="op">=</span> [<span class="st">'learn'</span>, <span class="st">'classify_image'</span>, <span class="st">'categories'</span>, <span class="st">'image'</span>, <span class="st">'label'</span>, <span class="st">'examples'</span>, <span class="st">'intf'</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gradio <span class="im">as</span> gr</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> load_learner(<span class="st">'model.pkl'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> learn.dls.vocab</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_image(img):</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    pred,idx,probs <span class="op">=</span> learn.predict(img)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">dict</span>(<span class="bu">zip</span>(categories, <span class="bu">map</span>(<span class="bu">float</span>,probs)))</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> gr.inputs.Image(shape<span class="op">=</span>(<span class="dv">192</span>, <span class="dv">192</span>))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> gr.outputs.Label()</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>examples <span class="op">=</span> [<span class="st">'hot_dog.jpeg'</span>]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>intf <span class="op">=</span> gr.Interface(fn<span class="op">=</span>classify_image, inputs<span class="op">=</span>image, outputs<span class="op">=</span>label, examples<span class="op">=</span>examples)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>intf.launch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This code creates a simple interactive interface where users can upload images, click a <code>submit</code> button, and get predictions from the model. For more information regarding the project’s files, please see <a href="https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier/blob/main/app.py">this link</a>.</p>
+<p>Let’s now play around with the deployed project! Let’s grab a random image of both a hot dog and a “not hot dog” (in this case, a taco).</p>
+<!-- ![](hot_dog.jpg)
+
+![Not Hot Dog](not_hot_dog.jpg) -->
+<p align="center">
+<img src="hot_dog.jpg" alt="Hot Dog" width="300"> <img src="not_hot_dog.jpg" alt="Not Hot Dog" width="250">
+</p>
+<p>Testing our model on both pictures, we get the following results:</p>
+<p align="center">
+<img src="hot_dog_results.png" class="img-fluid" alt="Hot Dog Results"> <img src="not_hot_dog_results.png" class="img-fluid" alt="Not Hot Dog Results">
+</p>
+<p>Our model seems to perform exceptionally well!</p>
+<p>However, it is important to consider that there are still some edge cases in which the model performs rather poorly; for instance, when the structure of a food item is extremely similar to that of a hot dog…</p>
+<p align="center">
+</p><div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sub_results.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Sub sandwich</figcaption>
+</figure>
+</div>
+<p></p>
+<p>To improve this model, we should try including more images of “subs” in the <code>not-hot-dog</code> subdirectory!</p>
+</section>
+<section id="acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgments"><strong>Acknowledgments</strong></h2>
+<p>I would like to thank the teams at DeepLearning.AI and fast.ai, from both of whom I have been able to learn about deep learning in the last few months.</p>
+</section>
+<section id="disclaimer" class="level2">
+<h2 class="anchored" data-anchor-id="disclaimer"><strong>Disclaimer</strong></h2>
+<p>Some readers may wonder if a certain male appendage is able to fool this classifier. I leave any such curiosities to the explorations of the reader…</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

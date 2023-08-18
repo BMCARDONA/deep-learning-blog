@@ -1,16 +1,18 @@
 ---
-title: "Creating a Hot Dog / Not Hot Dog Classifer Using Fast.Ai"
+title: "Creating a Hot Dog Binary Classifer Using Fast.AI"
 author: "Bradley Cardona"
 date: "2023-08-17"
 categories: [code, project]
-image: "image.jpg"
+image: "deep-learning.png"
 ---
 
-Having recently completed DeepLearning.AI's wonderful [Deep Learning Specialization](https://www.deeplearning.ai/courses/deep-learning-specialization/), I thought I would start the [Practical Deep Learning for Coders](https://course.fast.ai/) course by fast.ai. I recently completed the third lesson of Part I, and decided that I wanted to make a binary classifier to test whether an image belongs to the "hot dog" or "not hot dog" class, as seen on that famous Silicon Valley [episode](https://www.youtube.com/watch?v=ACmydtFDTGs&ab_channel=HBO). 
+Having recently completed DeepLearning.AI's wonderful [Deep Learning Specialization](https://www.deeplearning.ai/courses/deep-learning-specialization/), and having recently started fast.ai's [Practical Deep Learning for Coders](https://course.fast.ai/), I thought I would try to implement a binary classifier to test whether an image of a food item belongs to the "hot dog" or "not hot dog" class, as seen on that Silicon Valley [episode](https://www.youtube.com/watch?v=ACmydtFDTGs&ab_channel=HBO). 
 
-To create this project, I used the fast.ai library, [Gradio](https://www.gradio.app/), [HuggingFace Spaces](https://huggingface.co/spaces), [this](https://www.kaggle.com/datasets/dansbecker/hot-dog-not-hot-dog) Kaggle dataset, and Google Colab. This article will discuss the notebook that I used to train my model, in addition to the steps I took to deploy it. Feel free to check out my deployed project [here](https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier). :)
+To create this project, I used the fast.ai library, [Gradio](https://www.gradio.app/), [HuggingFace Spaces](https://huggingface.co/spaces), [this](https://www.kaggle.com/datasets/dansbecker/hot-dog-not-hot-dog) Kaggle dataset, and Google Colab. In this article, we will discuss the notebook I used to train my model, in addition to the steps I took to deploy it. Feel free to check out the deployed project [here](https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier). :)
 
-To begin the notebook, I imported any necessary dependencies.
+## **Training**
+
+To begin, we will import any necessary dependencies.
 
 ```python
 from fastai.vision.all import *
@@ -19,20 +21,20 @@ from google.colab import drive
 import os
 ```
 
-Since I was using Google Colab to execute my notebook cells, next I needed to mount my Google Drive to the Colab notebook's file system. (This allows one to access and manipulate files stored in one's Google Drive directly from within one's Colab notebook.)
+Since we are using Google Colab to execute my notebook cells, we to mount my Google Drive to the Colab notebook's file system. (This mounting allows one to access and manipulate files stored in one's Google Drive directly from within one's Colab notebook.)
 
 ```python
 # Mount Google Drive
 drive.mount('/content/drive')
 ```
 
-I then specified the path to my `dataset` directory, which itself contained two additional subdirectories: `hot-dog` and `not-hot-dog`. The former contained photos of hot dogs, the latter photos of "not hot dogs."
+Having mounted my drive, let's now specify the path to my `dataset` directory, which itself contains two additional subdirectories: `hot-dog` and `not-hot-dog`. The former contains photos of hot dogs, the latter photos of "not hot dogs."
 
 ```python
 path = '/content/drive/MyDrive/fast_ai_experiments/3_neural_net_foundations/hot_dog_not_hotdog/dataset/'
 ```
 
-Every image in the `hot-dog` and `not-hot-dog` subdirectories had a naming format of "number.jpg" (e.g., "1231.jpg"). For the sake of using a better naming format, therefore, I decided to use the format of "hot-dog_index" (e.g., "hot-dog_12.jpg") for the images of the `hot-dog` subdirectory, and "not-hot-dog_index" (e.g., "not-hot-dog_12.jpg") for the images of the `not-hot-dog` subdirectory.
+Every image in the `hot-dog` and `not-hot-dog` subdirectories has a pre-existing naming format of "number.jpg" (e.g., "1231.jpg"). For the sake of using a better naming format, let's use the format of "hot-dog_index" (e.g., "hot-dog_12.jpg") for each image in the `hot-dog` subdirectory, and "not-hot-dog_index" (e.g., "not-hot-dog_12.jpg") for each image in the `not-hot-dog` subdirectory.
 
 ```python
 # List of subdirectories
@@ -52,9 +54,9 @@ for subdir in subdirectories:
             os.rename(os.path.join(subdir_path, filename), os.path.join(subdir_path, new_filename))
 ```
 
-Next, I used the ImageDataLoaders.from_name_func() method. This is a fast.ai method for creating "data loaders" for image classification tasks; it takes various arguments, and defines how the data should be loaded and prepared. 
+Next, we will use the ImageDataLoaders.from_name_func() method. This is a fast.ai method used for creating "data loaders" for image classification tasks; it takes various arguments, which define how the data should be loaded and prepared. 
 
-Using this method, we will define our training/validation split as 80% for training and 20% for validation; we will label each image in the `hot-dog` subdirectory as "hot-dog" and each image in the `not-hot-dog` one as "not-hot-dog"; and we will re-size each image to be 224 x 224 in pixel size. 
+Using this method, we will define the training/validation split as 80% for training and 20% for validation; we will label each image in the `hot-dog` subdirectory as "hot-dog" and each image in the `not-hot-dog` one as "not-hot-dog"; and we will re-size each image to be 224 x 224 in pixel size. 
 
 ```python
 # Creating ImageDataLoaders
@@ -68,7 +70,7 @@ dls = ImageDataLoaders.from_name_func(
 )
 ```
 
-Let's now see a batch of 20 labeled images: 
+Let's now take a look at a batch containing 20 labeled images: 
 
 ```python
 dls.show_batch(max_n=20)
@@ -76,7 +78,7 @@ dls.show_batch(max_n=20)
 ![png](train_files/train_5_0.png)
     
 
-Nice! Let's now harness the capabilities of the fast.ai library to use transfer learning. We will create a learner object for image classification using the ResNet-34 architecture; train the model on our training set for 3 epochs; and then evaluate the model's performance on the validation set using the "error rate" metric. 
+Nice, it seems that each photo is labeled appropriately! Let's now use the fast.ai library to harness the capabilities of transfer learning. We will create a learner object for image classification using the ResNet-34 architecture, train the model on our training set for 3 epochs, and then evaluate the model's performance on our validation set using the "error rate" metric. 
 
 ```python
 learn = vision_learner(dls, resnet34, metrics=error_rate)
@@ -181,7 +183,7 @@ learn.fine_tune(3)
 </table>
 
 
-Based on [Jeremy Howard's](https://www.kaggle.com/code/jhoward/which-image-models-are-best/) analysis, it might make sense for us to try a different model to improve our error rate. Let's try the convnext models.
+Based on [this analysis](https://www.kaggle.com/code/jhoward/which-image-models-are-best/) by Jeremy Howard, it might make sense for us to try a different model to improve our error rate. Let's try the convnext models.
 
 
 ```python
@@ -326,12 +328,83 @@ learn.fine_tune(3)
 
 Indeed, using the convnext models, our error rate has dropped from 0.105528 to 0.045226! Hot dog!
 
+Let's export the trained model so that it can be saved and later loaded for further training without needing to retrain the model from scratch.
+
 
 ```python
 learn.export('model.pkl')
 ```
 
+## **Deployment**
+
+Having created our model, we now need to showcase our project to the world at large! Hugging Face Spaces (HFS) is a platform on which we can do so. We will make use of HFS, in addition to Gradio, an open-source library that enables one to create a simple interface for a machine learning model. To see how to pair HFS with Gradio, I encourage you to check out [this concise blog post](https://www.tanishq.ai/blog/gradio_hf_spaces_tutorial) by Tanishq Abraham. 
+
+
+Before deploying out project, we will need to make an `app.py` file. This file will make use of Gradio to create an interface to classify images using our pre-trained machine learning model (in this case, our `model.pkl` file).
+
+Here's my code for the `app.py` file:
 
 ```python
+# AUTOGENERATED! DO NOT EDIT! File to edit: . (unless otherwise specified).
 
+__all__ = ['learn', 'classify_image', 'categories', 'image', 'label', 'examples', 'intf']
+
+# Cell
+from fastai.vision.all import *
+import gradio as gr
+
+# Cell
+learn = load_learner('model.pkl')
+
+# Cell
+categories = learn.dls.vocab
+
+def classify_image(img):
+    pred,idx,probs = learn.predict(img)
+    return dict(zip(categories, map(float,probs)))
+
+# Cell
+image = gr.inputs.Image(shape=(192, 192))
+label = gr.outputs.Label()
+examples = ['hot_dog.jpeg']
+
+# Cell
+intf = gr.Interface(fn=classify_image, inputs=image, outputs=label, examples=examples)
+intf.launch()
 ```
+
+This code creates a simple interactive interface where users can upload images, click a `submit` button, and get predictions from the model. For more information regarding the project's files, please see [this link](https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier/blob/main/app.py). 
+
+Let's now play around with the deployed project! Let's grab a random image of both a hot dog and a "not hot dog" (in this case, a taco).
+
+<!-- ![](hot_dog.jpg)
+
+![Not Hot Dog](not_hot_dog.jpg) -->
+<p align="center">
+  <img src="hot_dog.jpg" alt="Hot Dog" width="300" /> <img src="not_hot_dog.jpg" alt="Not Hot Dog" width="250"/>
+</p>
+
+
+Testing our model on both pictures, we get the following results:
+
+<p align="center">
+  ![Hot Dog Results](hot_dog_results.png)
+  ![Not Hot Dog Results](not_hot_dog_results.png)
+</p>
+
+
+Our model seems to perform exceptionally well! 
+
+However, it is important to consider that there are still some edge cases in which the model performs rather poorly; for instance, when the structure of a food item is extremely similar to that of a hot dog...
+
+<p align="center">
+  ![Sub sandwich](sub_results.png)
+</p>
+
+To improve this model, we should try including more images of "subs" in the `not-hot-dog` subdirectory!
+
+## **Acknowledgments**
+I would like to thank the teams at DeepLearning.AI and fast.ai, from both of whom I have been able to learn about deep learning in the last few months.
+
+## **Disclaimer**
+Some readers may wonder if a certain male appendage is able to fool this classifier. I leave any such curiosities to the explorations of the reader...
