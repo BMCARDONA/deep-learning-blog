@@ -139,9 +139,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="quarto-title column-body">
       <h1 class="title">Creating a Hot Dog / Not Hot Dog Classifer Using Fast.Ai</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
                 <div class="quarto-category">code</div>
-                <div class="quarto-category">analysis</div>
+                <div class="quarto-category">project</div>
               </div>
                   </div>
   </div>
@@ -177,99 +176,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This is a post with executable code.</p>
-<section id="gradio-pets" class="level2">
-<h2 class="anchored" data-anchor-id="gradio-pets">Gradio Pets</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install timm</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>Collecting timm
-  Downloading timm-0.9.5-py3-none-any.whl (2.2 MB)
-[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m2.2/2.2 MB[0m [31m13.8 MB/s[0m eta [36m0:00:00[0m
-[?25hRequirement already satisfied: torch&gt;=1.7 in /usr/local/lib/python3.10/dist-packages (from timm) (2.0.1+cu118)
-Requirement already satisfied: torchvision in /usr/local/lib/python3.10/dist-packages (from timm) (0.15.2+cu118)
-Requirement already satisfied: pyyaml in /usr/local/lib/python3.10/dist-packages (from timm) (6.0.1)
-Collecting huggingface-hub (from timm)
-  Downloading huggingface_hub-0.16.4-py3-none-any.whl (268 kB)
-[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m268.8/268.8 kB[0m [31m20.6 MB/s[0m eta [36m0:00:00[0m
-[?25hCollecting safetensors (from timm)
-  Downloading safetensors-0.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
-[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.3/1.3 MB[0m [31m28.7 MB/s[0m eta [36m0:00:00[0m
-[?25hRequirement already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (3.12.2)
-Requirement already satisfied: typing-extensions in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (4.7.1)
-Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (1.12)
-Requirement already satisfied: networkx in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (3.1)
-Requirement already satisfied: jinja2 in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (3.1.2)
-Requirement already satisfied: triton==2.0.0 in /usr/local/lib/python3.10/dist-packages (from torch&gt;=1.7-&gt;timm) (2.0.0)
-Requirement already satisfied: cmake in /usr/local/lib/python3.10/dist-packages (from triton==2.0.0-&gt;torch&gt;=1.7-&gt;timm) (3.27.2)
-Requirement already satisfied: lit in /usr/local/lib/python3.10/dist-packages (from triton==2.0.0-&gt;torch&gt;=1.7-&gt;timm) (16.0.6)
-Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from huggingface-hub-&gt;timm) (2023.6.0)
-Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (from huggingface-hub-&gt;timm) (2.31.0)
-Requirement already satisfied: tqdm&gt;=4.42.1 in /usr/local/lib/python3.10/dist-packages (from huggingface-hub-&gt;timm) (4.66.1)
-Requirement already satisfied: packaging&gt;=20.9 in /usr/local/lib/python3.10/dist-packages (from huggingface-hub-&gt;timm) (23.1)
-Requirement already satisfied: numpy in /usr/local/lib/python3.10/dist-packages (from torchvision-&gt;timm) (1.23.5)
-Requirement already satisfied: pillow!=8.3.*,&gt;=5.3.0 in /usr/local/lib/python3.10/dist-packages (from torchvision-&gt;timm) (9.4.0)
-Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2-&gt;torch&gt;=1.7-&gt;timm) (2.1.3)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;huggingface-hub-&gt;timm) (3.2.0)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;huggingface-hub-&gt;timm) (3.4)
-Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;huggingface-hub-&gt;timm) (2.0.4)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests-&gt;huggingface-hub-&gt;timm) (2023.7.22)
-Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;torch&gt;=1.7-&gt;timm) (1.3.0)
-Installing collected packages: safetensors, huggingface-hub, timm
-Successfully installed huggingface-hub-0.16.4 safetensors-0.3.2 timm-0.9.5</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mount Google Drive</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Path to the "dataset" directory</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/fast_ai_experiments/3_neural_net_foundations/hot_dog_not_hotdog/dataset/'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>Mounted at /content/drive</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parent path to the dataset directory</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>parent_path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/fast_ai_experiments/3_neural_net_foundations/hot_dog_not_hotdog/dataset/'</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># List of subdirectories</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>subdirectories <span class="op">=</span> [<span class="st">'hot-dog'</span>, <span class="st">'not-hot-dog'</span>]</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through subdirectories</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subdir <span class="kw">in</span> subdirectories:</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    subdir_path <span class="op">=</span> os.path.join(parent_path, subdir)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List all files in the subdirectory</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    file_list <span class="op">=</span> os.listdir(subdir_path)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate through the files and rename them with a numbered sequence</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, filename <span class="kw">in</span> <span class="bu">enumerate</span>(file_list, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> filename.endswith(<span class="st">".jpg"</span>):</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            new_filename <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>subdir<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.jpg"</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            os.rename(os.path.join(subdir_path, filename), os.path.join(subdir_path, new_filename))</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating ImageDataLoaders</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> ImageDataLoaders.from_name_func(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    path,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    get_image_files(path),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    valid_pct<span class="op">=</span><span class="fl">0.2</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    label_func<span class="op">=</span>RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^([^/]+)_\d+'</span>),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Having recently completed DeepLearning.AI’s wonderful <a href="https://www.deeplearning.ai/courses/deep-learning-specialization/">Deep Learning Specialization</a>, I thought I would start the <a href="https://course.fast.ai/">Practical Deep Learning for Coders</a> course by fast.ai. I recently completed the third lesson of Part I, and decided that I wanted to make a binary classifier to test whether an image belongs to the “hot dog” or “not hot dog” class, as seen on that famous Silicon Valley <a href="https://www.youtube.com/watch?v=ACmydtFDTGs&amp;ab_channel=HBO">episode</a>.</p>
+<p>To create this project, I used the fast.ai library, <a href="https://www.gradio.app/">Gradio</a>, <a href="https://huggingface.co/spaces">HuggingFace Spaces</a>, <a href="https://www.kaggle.com/datasets/dansbecker/hot-dog-not-hot-dog">this</a> Kaggle dataset, and Google Colab. This article will discuss the notebook that I used to train my model, in addition to the steps I took to deploy it. Feel free to check out my deployed project <a href="https://huggingface.co/spaces/Brad11ey/hot_dog_not_hot_dog_classifier">here</a>. :)</p>
+<p>To begin the notebook, I imported any necessary dependencies.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Since I was using Google Colab to execute my notebook cells, next I needed to mount my Google Drive to the Colab notebook’s file system. (This allows one to access and manipulate files stored in one’s Google Drive directly from within one’s Colab notebook.)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mount Google Drive</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I then specified the path to my <code>dataset</code> directory, which itself contained two additional subdirectories: <code>hot-dog</code> and <code>not-hot-dog</code>. The former contained photos of hot dogs, the latter photos of “not hot dogs.”</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/fast_ai_experiments/3_neural_net_foundations/hot_dog_not_hotdog/dataset/'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Every image in the <code>hot-dog</code> and <code>not-hot-dog</code> subdirectories had a naming format of “number.jpg” (e.g., “1231.jpg”). For the sake of using a better naming format, therefore, I decided to use the format of “hot-dog_index” (e.g., “hot-dog_12.jpg”) for the images of the <code>hot-dog</code> subdirectory, and “not-hot-dog_index” (e.g., “not-hot-dog_12.jpg”) for the images of the <code>not-hot-dog</code> subdirectory.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of subdirectories</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>subdirectories <span class="op">=</span> [<span class="st">'hot-dog'</span>, <span class="st">'not-hot-dog'</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through subdirectories</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subdir <span class="kw">in</span> subdirectories:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    subdir_path <span class="op">=</span> os.path.join(path, subdir)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List all files in the subdirectory</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    file_list <span class="op">=</span> os.listdir(subdir_path)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate through the files and rename them with a numbered sequence</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, filename <span class="kw">in</span> <span class="bu">enumerate</span>(file_list, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> filename.endswith(<span class="st">".jpg"</span>):</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            new_filename <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>subdir<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.jpg"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            os.rename(os.path.join(subdir_path, filename), os.path.join(subdir_path, new_filename))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, I used the ImageDataLoaders.from_name_func() method. This is a fast.ai method for creating “data loaders” for image classification tasks; it takes various arguments, and defines how the data should be loaded and prepared.</p>
+<p>Using this method, we will define our training/validation split as 80% for training and 20% for validation; we will label each image in the <code>hot-dog</code> subdirectory as “hot-dog” and each image in the <code>not-hot-dog</code> one as “not-hot-dog”; and we will re-size each image to be 224 x 224 in pixel size.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating ImageDataLoaders</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> ImageDataLoaders.from_name_func(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    path,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    get_image_files(path),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    valid_pct<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    label_func<span class="op">=</span>RegexLabeller(pat <span class="op">=</span> <span class="vs">r'^([^/]+)_\d+'</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    item_tfms<span class="op">=</span>Resize(<span class="dv">224</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s now see a batch of 20 labeled images:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch(max_n<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="train_files/train_5_0.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">png</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet34, metrics<span class="op">=</span>error_rate)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>/usr/local/lib/python3.10/dist-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
-  warnings.warn(
-/usr/local/lib/python3.10/dist-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet34_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet34_Weights.DEFAULT` to get the most up-to-date weights.
-  warnings.warn(msg)
-Downloading: "https://download.pytorch.org/models/resnet34-b627a593.pth" to /root/.cache/torch/hub/checkpoints/resnet34-b627a593.pth
-100%|██████████| 83.3M/83.3M [00:00&lt;00:00, 94.1MB/s]</code></pre>
+<p>Nice! Let’s now harness the capabilities of the fast.ai library to use transfer learning. We will create a learner object for image classification using the ResNet-34 architecture; train the model on our training set for 3 epochs; and then evaluate the model’s performance on the validation set using the “error rate” metric.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, resnet34, metrics<span class="op">=</span>error_rate)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 <table class="dataframe table table-sm table-striped small">
@@ -390,8 +346,8 @@ time
 </tbody>
 
 </table>
-<p>We could try a better model, based on <a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">this analysis</a>. The convnext models work great!</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>timm.list_models(<span class="st">'convnext*'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Based on <a href="https://www.kaggle.com/code/jhoward/which-image-models-are-best/">Jeremy Howard’s</a> analysis, it might make sense for us to try a different model to improve our error rate. Let’s try the convnext models.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>timm.list_models(<span class="st">'convnext*'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>['convnext_atto',
  'convnext_atto_ols',
  'convnext_base',
@@ -417,14 +373,8 @@ time
  'convnextv2_pico',
  'convnextv2_small',
  'convnextv2_tiny']</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, <span class="st">'convnext_tiny_in22k'</span>, metrics<span class="op">=</span>error_rate).to_fp16()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>/usr/local/lib/python3.10/dist-packages/timm/models/_factory.py:114: UserWarning: Mapping deprecated model name convnext_tiny_in22k to current convnext_tiny.fb_in22k.
-  model = create_fn(
-
-
-
-Downloading model.safetensors:   0%|          | 0.00/178M [00:00&lt;?, ?B/s]</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> vision_learner(dls, <span class="st">'convnext_tiny_in22k'</span>, metrics<span class="op">=</span>error_rate).to_fp16()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>learn.fine_tune(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 <table class="dataframe table table-sm table-striped small">
@@ -545,11 +495,11 @@ time
 </tbody>
 
 </table>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Indeed, using the convnext models, our error rate has dropped from 0.105528 to 0.045226! Hot dog!</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
