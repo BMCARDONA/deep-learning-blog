@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Bradley's Deep Learning Blog"
+  title: "Bradley's sleep Learning Blog"
   navbar:
     right:
       - about.qmd 
