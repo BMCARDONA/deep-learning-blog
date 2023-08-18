@@ -1,0 +1,9 @@
+---
+title: "Creating a Hot Dog / Not Hot Dog Classifer Using Fast.Ai"
+author: "Bradley Cardona"
+date: "2023-08-17"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+This is a post with executable code.
