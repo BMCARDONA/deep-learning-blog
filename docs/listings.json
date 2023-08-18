@@ -2,7 +2,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/hot-dog-classifier/train.html",
       "/posts/hot-dog-classifier/index.html",
       "/posts/welcome/index.html"
     ]
