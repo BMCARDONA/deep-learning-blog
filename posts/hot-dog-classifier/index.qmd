@@ -21,7 +21,7 @@ from google.colab import drive
 import os
 ```
 
-Since we are using Google Colab to execute my notebook cells, we to mount my Google Drive to the Colab notebook's file system. (This mounting allows one to access and manipulate files stored in one's Google Drive directly from within one's Colab notebook.)
+Since we are using Google Colab to execute the notebook cells, we need to mount the Google Drive to the Colab notebook's file system. (Mounting allows one to access and manipulate files stored in one's Google Drive directly from within one's Colab notebook.)
 
 ```python
 # Mount Google Drive
