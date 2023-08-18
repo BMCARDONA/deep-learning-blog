@@ -1,24 +1,10 @@
 [
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "Recent college graduate, and a deep learning practitioner!\nYou can find my personal website here."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Bradley’s Deep Learning Blog",
-    "section": "",
-    "text": "Creating a Hot Dog Binary Classifer Using Fast.AI\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nAug 17, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nAug 14, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/hot-dog-classifier/index.html",
@@ -54,5 +40,19 @@
     "title": "Creating a Hot Dog Binary Classifer Using Fast.AI",
     "section": "Disclaimer",
     "text": "Disclaimer\nSome readers may wonder if a certain male appendage is able to fool this classifier. I leave any such curiosities to the explorations of the reader…"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Bradley’s Deep Learning Blog",
+    "section": "",
+    "text": "Creating a Hot Dog Binary Classifer Using Fast.AI\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nAug 17, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nAug 14, 2023\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
   }
 ]
