@@ -185,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Since we are using Google Colab to execute my notebook cells, we to mount my Google Drive to the Colab notebook’s file system. (This mounting allows one to access and manipulate files stored in one’s Google Drive directly from within one’s Colab notebook.)</p>
+<p>Since we are using Google Colab to execute the notebook cells, we need to mount the Google Drive to the Colab notebook’s file system. (Mounting allows one to access and manipulate files stored in one’s Google Drive directly from within one’s Colab notebook.)</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mount Google Drive</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Having mounted my drive, let’s now specify the path to my <code>dataset</code> directory, which itself contains two additional subdirectories: <code>hot-dog</code> and <code>not-hot-dog</code>. The former contains photos of hot dogs, the latter photos of “not hot dogs.”</p>
@@ -554,15 +554,15 @@ time
 </figure>
 </div>
 <p></p>
-<p>To improve this model, we should try including more images of “subs” in the <code>not-hot-dog</code> subdirectory!</p>
+<p>To improve this model, we should thus try including more images of “subs” in the <code>not-hot-dog</code> subdirectory.</p>
 </section>
 <section id="acknowledgments" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgments"><strong>Acknowledgments</strong></h2>
-<p>I would like to thank the teams at DeepLearning.AI and fast.ai, from both of whom I have been able to learn about deep learning in the last few months.</p>
+<p>I would like to thank the teams at DeepLearning.AI and fast.ai, from both of which I have been able to learn a lot about deep learning in the preceding months.</p>
 </section>
 <section id="disclaimer" class="level2">
 <h2 class="anchored" data-anchor-id="disclaimer"><strong>Disclaimer</strong></h2>
-<p>Some readers may wonder if a certain male appendage is able to fool this classifier. I leave any such curiosities to the explorations of the reader…</p>
+<p>Some readers may wonder if a certain male appendage is able to fool this classifier. I leave all such curiosities to the explorations of the reader…</p>
 
 
 </section>
