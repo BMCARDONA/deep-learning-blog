@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/good-resources/index.html",
       "/posts/pytorch-model/index.html",
       "/posts/hot-dog-classifier/index.html",
       "/posts/welcome/index.html"

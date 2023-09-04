@@ -42,11 +42,18 @@
     "text": "Disclaimer\nSome readers may wonder if a certain male appendage is able to fool this classifier. I leave all such curiosities to the explorations of the reader…"
   },
   {
+    "objectID": "posts/good-resources/index.html",
+    "href": "posts/good-resources/index.html",
+    "title": "A List of Great Books and Articles",
+    "section": "",
+    "text": "I recently came across some great books and articles which cover deep-learning-related subjects. To prevent myself from losing track of these gems, I thought I would list them here so that I can come back to them in the future if need be. Happy learning!\n\nBooks\n\nIntroduction to Statistical Learning by Gareth James, Daniela Witten, Trevor Hastie, and Rob Robshirani\n\n\n\nArticles\n\nThe Unreasonable Effectiveness of Recurrent Neural Networks by Andrej Karpathy\nUnderstanding LSTM Networks by Christopher Olah"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Bradley’s Deep Learning Blog",
     "section": "",
-    "text": "Creating a CNN using the PyTorch Framework\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nSep 1, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nCreating a Hot Dog Binary Classifer Using Fast.AI\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nAug 17, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nWelcome to the Blog!\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nAug 14, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\nNo matching items"
+    "text": "A List of Great Books and Articles\n\n\n\n\n\n\n\nbooks\n\n\narticles\n\n\n\n\n\n\n\n\n\n\n\nSep 4, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nCreating a CNN using the PyTorch Framework\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nSep 1, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nCreating a Hot Dog Binary Classifer Using Fast.AI\n\n\n\n\n\n\n\ncode\n\n\nproject\n\n\n\n\n\n\n\n\n\n\n\nAug 17, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\n  \n\n\n\n\nWelcome to the Blog!\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nAug 14, 2023\n\n\nBradley Cardona\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/pytorch-model/index.html",
