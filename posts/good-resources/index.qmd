@@ -1,0 +1,16 @@
+---
+title: "A List of Great Books and Articles"
+author: "Bradley Cardona"
+date: "2023-09-04"
+categories: [books, articles]
+image: "net.jpeg"
+---
+
+I recently came across some great books and articles which cover deep-learning-related subjects. To prevent myself from losing track of these gems, I thought I would list them here so that I can come back to them in the future if need be. Happy learning! 
+
+# Books
+- [Introduction to Statistical Learning](https://www.statlearning.com/) by Gareth James, Daniela Witten, Trevor Hastie, and Rob Robshirani
+
+# Articles
+- [The Unreasonable Effectiveness of Recurrent Neural Networks](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy
+- [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) by Christopher Olah
